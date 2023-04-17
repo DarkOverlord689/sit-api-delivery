@@ -4,24 +4,32 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 public class Order {
-    private static int count = 0;
-    private int id;
+    private String id;
     private String customerName;
     private String customerEmail;
     private String status;
-    private LocalDateTime crationTime;
+    private LocalDateTime creationTime;
     private LocalDateTime estimatedDeliveryTime;
     private List<Food> items;
 
-    public Order(String customerName, String customerEmail, String status, LocalDateTime crationTime, LocalDateTime estimatedDeliveryTime, List<Food> items) {
-        this.id = ++count;
+    public Order() {
+    }
+
+    public Order(String id, String customerName, String customerEmail, List<Food> items) {
+        this.id = id;
         this.customerName = customerName;
         this.customerEmail = customerEmail;
-        this.status = status;
-        this.crationTime = crationTime;
-        this.estimatedDeliveryTime = estimatedDeliveryTime;
         this.items = items;
+        this.status = "confirmado";
+        this.creationTime = LocalDateTime.now();
+        this.estimatedDeliveryTime = this.creationTime.plusMinutes(30);
     }
+
+    // getters and setters
+    public String getId() {
+        return id;
+    }
+
 
     public String getCustomerName() {
         return customerName;
@@ -47,12 +55,12 @@ public class Order {
         this.status = status;
     }
 
-    public LocalDateTime getCrationTime() {
-        return crationTime;
+    public LocalDateTime getCreationTime() {
+        return creationTime;
     }
 
-    public void setCrationTime(LocalDateTime crationTime) {
-        this.crationTime = crationTime;
+    public void setCreationTime(LocalDateTime creationTime) {
+        this.creationTime = creationTime;
     }
 
     public LocalDateTime getEstimatedDeliveryTime() {
@@ -69,5 +77,13 @@ public class Order {
 
     public void setItems(List<Food> items) {
         this.items = items;
+    }
+
+    public double getTotal() {
+        double total = 0;
+        for (Food item : items) {
+            total += item.getPrice();
+        }
+        return total;
     }
 }
